@@ -14,7 +14,7 @@ git diff HEAD HEAD^ | grep '^-$\|^-[^-]' | grep -v '^-\s*\*\|^-\s*\/\*' | grep -
 echo -e "\n"G
 git diff HEAD HEAD^ | grep '^+$\|^+[^+]' | grep -v '^+\s*\*\|^+\s*\/\*' | grep -v '^+\s*$' | grep -v '^+\s*\/\/' | wc -l
 echo -e "\n"H
-for file in `git diff --name-only HEAD HEAD^`; do echo $file; git log -2 --pretty=%cd $file; done
+for file in `git diff --name-only HEAD HEAD^`; do echo $file; git log -2 --pretty=%ct $file|awk 'NR==1{p=$1;next} {print (p-$1)/86400; p=$1} END{}'; done
 echo -e "\n"I
 for file in `git diff --name-only HEAD HEAD^`; do echo $file; git log --pretty=oneline $file | wc -l; done
 echo -e "\n"J
